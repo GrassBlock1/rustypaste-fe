@@ -1,0 +1,84 @@
+:not(:defined) {
+  visibility: hidden;
+}
+pre {
+  font-family: "SpaceMono", "Sarasa Mono SC", Courier, monospace;
+  font-size: 18px;
+  margin: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+div.mdui-prose {
+  font-family: "SpaceMono", "Sarasa Mono SC", Courier, monospace;
+}
+form div.submit {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  div.options {
+    display: flex;
+    flex-direction: column;
+  }
+  #URLAuthToken, #authToken {
+    min-width: 50%;
+    max-width: 50%;
+  }
+  #URLExpiration, #expiration {
+    min-width: 20%;
+    max-width: 20%;
+  }
+  mdui-button {
+    margin-left: 1rem;
+  }
+}
+form div.paste {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  p {
+    margin-top: 1rem;
+    margin-bottom: unset;
+  }
+}
+@media screen and (max-width: 720px) {
+  form div.submit {
+    display: block;
+    margin-top: unset;
+  }
+  div.options {
+    display: block;
+  }
+  form div.submit mdui-text-field#URLAuthToken,form div.submit mdui-text-field#authToken {
+    min-width: unset;
+    max-width: unset;
+    margin-top: 1rem
+  }
+  form div.submit mdui-text-field#URLExpiration, form div.submit mdui-text-field#expiration {
+    max-width: unset;
+    min-width: unset;
+    margin-top: 1rem;
+  }
+  form div.submit div.options mdui-checkbox {
+    margin-top: 1rem;
+  }
+  form div.submit mdui-button {
+    margin-top: 1rem;
+  }
+}
+mdui-text-field {
+  padding-inline-end: 20px;
+}
+div.ss-main,div.ss-content {
+  /* Colors */
+  --ss-primary-color: rgb(var(--mdui-color-primary));
+  --ss-bg-color: rgb(var(--mdui-color-surface-container));
+  --ss-font-color: rgb(var(--mdui-color-on-surface));
+  --ss-border-color: rgb(var(--mdui-color-outline-variant));
+}
+input::file-selector-button {
+  color: rgb(var(--mdui-color-primary));
+  background-color: rgb(var(--mdui-color-primary-container));
+  padding: 0.5em;
+  border: thin solid rgba(var(--mdui-color-primary), 0.8);
+  border-radius: var(--mdui-shape-corner-extra-large);
+}

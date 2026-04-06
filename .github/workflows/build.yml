@@ -1,0 +1,65 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: true
+
+      # ---- build 1: pnpm build ----
+      - name: Build (pnpm build)
+        run: pnpm build
+
+      - name: Pack dist from pnpm build
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "dist/ not found after pnpm build. Please check your Vite output dir."
+            exit 1
+          fi
+          tar -czf dist-build.tar.gz dist
+
+      # ---- build 2: pnpm build:singlefile ----
+      - name: Build (pnpm build:singlefile)
+        run: pnpm build:singlefile
+
+      - name: Pack output from pnpm build:singlefile
+        run: |
+          mv index.html landing.html
+
+      # ---- create/publish release + upload assets ----
+      - name: Create GitHub Release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            dist-build.tar.gz
+            landing.html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

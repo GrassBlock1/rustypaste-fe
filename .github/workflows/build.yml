@@ -50,7 +50,7 @@ jobs:
 
       - name: Pack output from pnpm build:singlefile
         run: |
-          mv index.html landing.html
+          mv dist/index.html landing.html
 
       # ---- create/publish release + upload assets ----
       - name: Create GitHub Release and upload assets
